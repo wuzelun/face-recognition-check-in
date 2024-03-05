@@ -10,6 +10,13 @@
 		52333A932654463B0034072B /* UIOpenURLContext_Init.m in Sources */ = {isa = PBXBuildFile; fileRef = 52333A922654463B0034072B /* UIOpenURLContext_Init.m */; };
 		678E0BAF26B749A000B21166 /* Publisher+WeakAssign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678E0BAE26B749A000B21166 /* Publisher+WeakAssign.swift */; };
 		994B6FEA4FFDA3611F105213 /* Pods_CountriesSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E512F60F9FAC3503A3F489F /* Pods_CountriesSwiftUI.framework */; };
+		ABC080B92B96C62F008F3ECC /* FaceRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABC080B82B96C62F008F3ECC /* FaceRecognizer.mm */; };
+		ABC080BC2B96C9FD008F3ECC /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080BB2B96C9FD008F3ECC /* CameraController.swift */; };
+		ABC080C12B96CA98008F3ECC /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080C02B96CA98008F3ECC /* CameraPreviewView.swift */; };
+		ABC080C32B96DA78008F3ECC /* FaceRecognizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080C22B96DA78008F3ECC /* FaceRecognizeView.swift */; };
+		ABC080C82B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat in Resources */ = {isa = PBXBuildFile; fileRef = ABC080C72B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat */; };
+		ABC080C92B96FCE4008F3ECC /* shape_predictor_68_face_landmarks.dat in Resources */ = {isa = PBXBuildFile; fileRef = ABC080C62B96FC87008F3ECC /* shape_predictor_68_face_landmarks.dat */; };
+		ABC080CB2B96FFCA008F3ECC /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080CA2B96FFCA008F3ECC /* Util.swift */; };
 		ABC1D2CC2B96C129006EB73E /* libdlib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABC1D2CB2B96C129006EB73E /* libdlib.a */; };
 		F60829712369CE0100DB292E /* RequestMocking.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829702369CE0100DB292E /* RequestMocking.swift */; };
 		F60829732369CE5300DB292E /* MockedResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60829722369CE5300DB292E /* MockedResponse.swift */; };
@@ -115,6 +122,15 @@
 		7E512F60F9FAC3503A3F489F /* Pods_CountriesSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountriesSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EFA019FA7B0EF83696C67CA /* Pods-CountriesSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 		94C5C19A5F04E076A09E475E /* Pods-CountriesSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
+		ABC080B62B96C62E008F3ECC /* CountriesSwiftUI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CountriesSwiftUI-Bridging-Header.h"; sourceTree = "<group>"; };
+		ABC080B72B96C62F008F3ECC /* FaceRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceRecognizer.h; sourceTree = "<group>"; };
+		ABC080B82B96C62F008F3ECC /* FaceRecognizer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceRecognizer.mm; sourceTree = "<group>"; };
+		ABC080BB2B96C9FD008F3ECC /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		ABC080C02B96CA98008F3ECC /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		ABC080C22B96DA78008F3ECC /* FaceRecognizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceRecognizeView.swift; sourceTree = "<group>"; };
+		ABC080C62B96FC87008F3ECC /* shape_predictor_68_face_landmarks.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = shape_predictor_68_face_landmarks.dat; sourceTree = "<group>"; };
+		ABC080C72B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat */ = {isa = PBXFileReference; lastKnownFileType = file; path = dlib_face_recognition_resnet_model_v1.dat; sourceTree = "<group>"; };
+		ABC080CA2B96FFCA008F3ECC /* Util.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		ABC1D2CB2B96C129006EB73E /* libdlib.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libdlib.a; path = ../../Documents/Framework/lib/libdlib.a; sourceTree = "<group>"; };
 		B106B77D2A62773200926901 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		F60829702369CE0100DB292E /* RequestMocking.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RequestMocking.swift; sourceTree = "<group>"; };
@@ -249,6 +265,35 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		ABC080B52B96C5E2008F3ECC /* Objc */ = {
+			isa = PBXGroup;
+			children = (
+				ABC080C72B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat */,
+				ABC080C62B96FC87008F3ECC /* shape_predictor_68_face_landmarks.dat */,
+				ABC080B72B96C62F008F3ECC /* FaceRecognizer.h */,
+				ABC080B82B96C62F008F3ECC /* FaceRecognizer.mm */,
+				ABC080B62B96C62E008F3ECC /* CountriesSwiftUI-Bridging-Header.h */,
+			);
+			path = Objc;
+			sourceTree = "<group>";
+		};
+		ABC080BA2B96C9EB008F3ECC /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				ABC080BB2B96C9FD008F3ECC /* CameraController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		ABC080BF2B96CA88008F3ECC /* View */ = {
+			isa = PBXGroup;
+			children = (
+				ABC080C02B96CA98008F3ECC /* CameraPreviewView.swift */,
+				ABC080C22B96DA78008F3ECC /* FaceRecognizeView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		F60829742369D55700DB292E /* Repositories */ = {
 			isa = PBXGroup;
 			children = (
@@ -350,6 +395,9 @@
 		F64495E32360D66400C9BB1F /* CountriesSwiftUI */ = {
 			isa = PBXGroup;
 			children = (
+				ABC080BF2B96CA88008F3ECC /* View */,
+				ABC080BA2B96C9EB008F3ECC /* Controller */,
+				ABC080B52B96C5E2008F3ECC /* Objc */,
 				F67F62AE24422EE900A6ED11 /* Persistence */,
 				F64495F82360D67A00C9BB1F /* System */,
 				F64496012360D8D800C9BB1F /* Utilities */,
@@ -422,6 +470,7 @@
 		F64496012360D8D800C9BB1F /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				ABC080CA2B96FFCA008F3ECC /* Util.swift */,
 				F60B5E3E2438DA57009BCBB3 /* Store.swift */,
 				F60B5E3C2438DA47009BCBB3 /* CancelBag.swift */,
 				F64496022360D8EB00C9BB1F /* Loadable.swift */,
@@ -607,6 +656,7 @@
 				TargetAttributes = {
 					F64495E02360D66400C9BB1F = {
 						CreatedOnToolsVersion = 11.1;
+						LastSwiftMigration = 1520;
 					};
 					F67833D12369CCBD0065272F = {
 						CreatedOnToolsVersion = 11.1;
@@ -649,8 +699,10 @@
 			files = (
 				F64495F12360D66700C9BB1F /* LaunchScreen.storyboard in Resources */,
 				F66EDB6823F1599F00A01B9F /* Localizable.strings in Resources */,
+				ABC080C82B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat in Resources */,
 				F64495EE2360D66700C9BB1F /* Preview Assets.xcassets in Resources */,
 				F64495EB2360D66700C9BB1F /* Assets.xcassets in Resources */,
+				ABC080C92B96FCE4008F3ECC /* shape_predictor_68_face_landmarks.dat in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -720,6 +772,7 @@
 				F6238A9624449DC200DD30EA /* db_model_v1.xcdatamodeld in Sources */,
 				F6218DB22362FD3100917938 /* CountryCell.swift in Sources */,
 				F67DBD5223663BCD00C83258 /* SystemEventsHandler.swift in Sources */,
+				ABC080C12B96CA98008F3ECC /* CameraPreviewView.swift in Sources */,
 				F64496102361B64700C9BB1F /* CountriesList.swift in Sources */,
 				F695DF8624559F8D00A65A04 /* PushNotificationsHandler.swift in Sources */,
 				F67F62B324430AE800A6ED11 /* CoreDataStack.swift in Sources */,
@@ -733,8 +786,10 @@
 				F64495E92360D66400C9BB1F /* ContentView.swift in Sources */,
 				678E0BAF26B749A000B21166 /* Publisher+WeakAssign.swift in Sources */,
 				F67DBD652368875A00C83258 /* CountriesWebRepository.swift in Sources */,
+				ABC080B92B96C62F008F3ECC /* FaceRecognizer.mm in Sources */,
 				F644960C2360EAD000C9BB1F /* APICall.swift in Sources */,
 				F64496122361BB4900C9BB1F /* ServicesContainer.swift in Sources */,
+				ABC080BC2B96C9FD008F3ECC /* CameraController.swift in Sources */,
 				F68B530C23771A9400D6337C /* ImagesService.swift in Sources */,
 				F695DF8D2455D36900A65A04 /* PushTokenWebRepository.swift in Sources */,
 				F6218DB42363051D00917938 /* CountryDetails.swift in Sources */,
@@ -755,6 +810,8 @@
 				F68B530A2376EE8C00D6337C /* ImageWebRepository.swift in Sources */,
 				F644960E2360EF6C00C9BB1F /* WebRepository.swift in Sources */,
 				F64496002360D8B000C9BB1F /* CountriesService.swift in Sources */,
+				ABC080CB2B96FFCA008F3ECC /* Util.swift in Sources */,
+				ABC080C32B96DA78008F3ECC /* FaceRecognizeView.swift in Sources */,
 				F64495FD2360D81F00C9BB1F /* AppState.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -959,6 +1016,7 @@
 			baseConfigurationReference = 7EFA019FA7B0EF83696C67CA /* Pods-CountriesSwiftUI.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CountriesSwiftUI/Resources/CountriesSwiftUI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
@@ -983,6 +1041,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "wow profile";
 				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesSwiftUI/Objc/CountriesSwiftUI-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -993,6 +1053,7 @@
 			baseConfigurationReference = 94C5C19A5F04E076A09E475E /* Pods-CountriesSwiftUI.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = CountriesSwiftUI/Resources/CountriesSwiftUI.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
@@ -1017,6 +1078,7 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "wow profile";
 				SUPPORTS_MACCATALYST = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "CountriesSwiftUI/Objc/CountriesSwiftUI-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

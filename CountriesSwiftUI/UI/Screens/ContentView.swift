@@ -15,15 +15,21 @@ import EnvironmentOverrides
 struct ContentView: View {
     
     @ObservedObject private(set) var viewModel: ViewModel
+    let faceRec = FaceRecognizer.shared()
     
     var body: some View {
         Group {
             if viewModel.isRunningTests {
                 Text("Running unit tests")
             } else {
-                CountriesList(viewModel: .init(container: viewModel.container))
-                    .attachEnvironmentOverrides(onChange: viewModel.onChangeHandler)
-                    .modifier(RootViewAppearance(viewModel: .init(container: viewModel.container)))
+//                CountriesList(viewModel: .init(container: viewModel.container))
+//                    .attachEnvironmentOverrides(onChange: viewModel.onChangeHandler)
+//                    .modifier(RootViewAppearance(viewModel: .init(container: viewModel.container)))
+//                    .onAppear(perform: {
+//                        faceRec.test()
+//                    })
+//                Text("Running unit tests")
+                FaceRecognizeView()
             }
         }
     }
