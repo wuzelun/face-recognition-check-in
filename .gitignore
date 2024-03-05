@@ -29,6 +29,9 @@ xcuserdata/
 *.dSYM.zip
 *.dSYM
 
+## Xcode Patch
+!*.xcodeproj/project.pbxproj
+
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
