@@ -6,13 +6,13 @@
 
 ---
 
-# Clean Architecture for SwiftUI + Combine
+# MVVM Architecture for SwiftUI + Combine
 
-A demo project showcasing the setup of the SwiftUI app with Clean Architecture.
+A demo project showcasing the setup of the SwiftUI app with MVVM Architecture.
 
 The app uses the [restcountries.com](https://restcountries.com/) REST API to show the list of countries and details about them.
 
-**Check out [mvvm branch](https://github.com/nalexn/clean-architecture-swiftui/tree/mvvm) for the MVVM revision of the same app.**
+**Check out [master branch](https://github.com/nalexn/clean-architecture-swiftui) for the Clean Architecture revision of the same app.**
 
 For the example of handling the **authentication state** in the app, you can refer to my [other tiny project](https://github.com/nalexn/uikit-swiftui) that harnesses the locks and keys principle for solving this problem.
 
@@ -38,30 +38,32 @@ For the example of handling the **authentication state** in the app, you can ref
 ## Architecture overview
 
 <p align="center">
-  <img src="https://github.com/nalexn/blob_files/blob/master/images/swiftui_arc_001.png?raw=true" alt="Diagram"/>
+  <img src="https://github.com/nalexn/blob_files/blob/master/images/swiftui_arc_002.png?raw=true" alt="Diagram"/>
 </p>
 
 ### Presentation Layer
 
 **SwiftUI views** that contain no business logic and are a function of the state.
 
-Side effects are triggered by the user's actions (such as a tap on a button) or view lifecycle event `onAppear` and are forwarded to the `Interactors`.
+Side effects are triggered by the user's actions (such as a tap on a button) or view lifecycle event `onAppear` and are forwarded to the `ViewModel`.
 
-State and business logic layer (`AppState` + `Interactors`) are natively injected into the view hierarchy with `@Environment`.
+`ViewModel` also serves as the data source for the View. `ViewModel` is injected into the view as a constructor parameter.
 
 ### Business Logic Layer
 
-Business Logic Layer is represented by `Interactors`. 
+Business Logic Layer is represented by `ViewModels` and `Services`.
 
-Interactors receive requests to perform work, such as obtaining data from an external source or making computations, but they never return data back directly.
+`Services` receive requests to perform work, such as obtaining data from an external source or making computations, but they never return data back directly.
 
-Instead, they forward the result to the `AppState` or to a `Binding`. The latter is used when the result of work (the data) is used locally by one View and does not belong to the `AppState`.
+Instead, they forward the result to the `AppState` or to a `Binding`. The latter is used when the result of work (the data) is used locally by one `ViewModel` and does not belong to the `AppState`.
+
+`ViewModel` works as an intermediary between `View` and `Services`, encapsulating business logic local to the view. It is observing changes in the `AppState`, providing up-to-date data to the `View` through `Bindings`.
 
 [Previously](https://github.com/nalexn/clean-architecture-swiftui/releases/tag/1.0), this app did not use CoreData for persistence, and all loaded data were stored in the `AppState`.
 
-With the persistence layer in place we have a choice - either to load the DB content onto the `AppState`, or serve the data from `Interactors` on an on-demand basis through `Binding`.
+With the persistence layer in place we have a choice - either to load the DB content onto the `AppState`, or serve the data from `Services` on an on-demand basis through `Binding`.
 
-The first option suits best when you don't have a lot of data, for example, when you just store the last used login email in the `UserDefaults`. Then, the corresponding string value can just be loaded onto the `AppState` at launch and updated by the `Interactor` when the user changes the input.
+The first option suits best when you don't have a lot of data, for example, when you just store the last used login email in the `UserDefaults`. Then, the corresponding string value can just be loaded onto the `AppState` at launch and updated by the `Service` when the user changes the input.
 
 The second option is better when you have massive amounts of data and introduce a fully-fledged database for storing it locally.
 
@@ -69,7 +71,7 @@ The second option is better when you have massive amounts of data and introduce 
 
 Data Access Layer is represented by `Repositories`.
 
-Repositories provide asynchronous API (`Publisher` from Combine) for making [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on the backend or a local database. They don't contain business logic, neither do they mutate the `AppState`. Repositories are accessible and used only by the Interactors.
+Repositories provide asynchronous API (`Publisher` from Combine) for making [CRUD](https://en.wikipedia.org/wiki/Create,_read,_update_and_delete) operations on the backend or a local database. They don't contain business logic, neither do they mutate the `AppState`. Repositories are accessible and used only by the Services.
 
 ---
 

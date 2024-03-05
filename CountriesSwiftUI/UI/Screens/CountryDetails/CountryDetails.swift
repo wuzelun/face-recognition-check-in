@@ -11,53 +11,27 @@ import Combine
 
 struct CountryDetails: View {
     
-    let country: Country
-    
-    @Environment(\.locale) var locale: Locale
-    @Environment(\.injected) private var injected: DIContainer
-    @State private var details: Loadable<Country.Details>
-    @State private var routingState: Routing = .init()
-    private var routingBinding: Binding<Routing> {
-        $routingState.dispatched(to: injected.appState, \.routing.countryDetails)
-    }
+    @ObservedObject private(set) var viewModel: ViewModel
+    @Environment(\.locale) private var locale: Locale
     let inspection = Inspection<Self>()
-    
-    init(country: Country, details: Loadable<Country.Details> = .notRequested) {
-        self.country = country
-        self._details = .init(initialValue: details)
-    }
     
     var body: some View {
         content
-            .navigationBarTitle(country.name(locale: locale))
-            .onReceive(routingUpdate) { self.routingState = $0 }
+            .navigationBarTitle(viewModel.country.name(locale: locale))
             .onReceive(inspection.notice) { self.inspection.visit(self, $0) }
     }
     
     @ViewBuilder private var content: some View {
-        switch details {
+        switch viewModel.details {
         case .notRequested:
             notRequestedView
         case .isLoading:
             loadingView
-        case let .loaded(countryDetails):
-            loadedView(countryDetails)
+        case let .loaded(details):
+            loadedView(country: viewModel.country, details: details)
         case let .failed(error):
             failedView(error)
         }
-    }
-}
-
-// MARK: - Side Effects
-
-private extension CountryDetails {
-    func loadCountryDetails() {
-        injected.interactors.countriesInteractor
-            .load(countryDetails: $details, country: country)
-    }
-    
-    func showCountryDetailsSheet() {
-        injected.appState[\.routing.countryDetails.detailsSheet] = true
     }
 }
 
@@ -66,7 +40,7 @@ private extension CountryDetails {
 private extension CountryDetails {
     var notRequestedView: some View {
         Text("").onAppear {
-            self.loadCountryDetails()
+            self.viewModel.loadCountryDetails()
         }
     }
     
@@ -74,14 +48,14 @@ private extension CountryDetails {
         VStack {
             ActivityIndicatorView()
             Button(action: {
-                self.details.cancelLoading()
+                self.viewModel.details.cancelLoading()
             }, label: { Text("Cancel loading") })
         }
     }
     
     func failedView(_ error: Error) -> some View {
         ErrorView(error: error, retryAction: {
-            self.loadCountryDetails()
+            self.viewModel.loadCountryDetails()
         })
     }
 }
@@ -89,41 +63,41 @@ private extension CountryDetails {
 // MARK: - Displaying Content
 
 private extension CountryDetails {
-    func loadedView(_ countryDetails: Country.Details) -> some View {
+    func loadedView(country: Country, details: Country.Details) -> some View {
         List {
-            country.flag.map { url in
+            viewModel.country.flag.map { url in
                 flagView(url: url)
             }
-            basicInfoSectionView(countryDetails: countryDetails)
-            if countryDetails.currencies.count > 0 {
-                currenciesSectionView(currencies: countryDetails.currencies)
+            basicInfoSectionView(country: country, details: details)
+            if details.currencies.count > 0 {
+                currenciesSectionView(currencies: details.currencies)
             }
-            if countryDetails.neighbors.count > 0 {
-                neighborsSectionView(neighbors: countryDetails.neighbors)
+            if details.neighbors.count > 0 {
+                neighborsSectionView(neighbors: details.neighbors)
             }
         }
         .listStyle(GroupedListStyle())
-        .sheet(isPresented: routingBinding.detailsSheet,
+        .sheet(isPresented: self.$viewModel.routingState.detailsSheet,
                content: { self.modalDetailsView() })
     }
     
     func flagView(url: URL) -> some View {
         HStack {
             Spacer()
-            ImageView(imageURL: url)
+            ImageView(viewModel: .init(container: viewModel.container, imageURL: url))
                 .frame(width: 120, height: 80)
                 .onTapGesture {
-                    self.showCountryDetailsSheet()
+                    self.viewModel.showCountryDetailsSheet()
                 }
             Spacer()
         }
     }
     
-    func basicInfoSectionView(countryDetails: Country.Details) -> some View {
+    func basicInfoSectionView(country: Country, details: Country.Details) -> some View {
         Section(header: Text("Basic Info")) {
             DetailRow(leftLabel: Text(country.alpha3Code), rightLabel: "Code")
             DetailRow(leftLabel: Text("\(country.population)"), rightLabel: "Population")
-            DetailRow(leftLabel: Text("\(countryDetails.capital)"), rightLabel: "Capital")
+            DetailRow(leftLabel: Text("\(details.capital)"), rightLabel: "Capital")
         }
     }
     
@@ -146,38 +120,19 @@ private extension CountryDetails {
     }
     
     func neighbourDetailsView(country: Country) -> some View {
-        CountryDetails(country: country)
+        CountryDetails(viewModel: .init(container: viewModel.container, country: country))
     }
     
     func modalDetailsView() -> some View {
-        ModalDetailsView(country: country,
-                         isDisplayed: routingBinding.detailsSheet)
-            .inject(injected)
+        ModalDetailsView(viewModel: .init(
+            container: viewModel.container, country: viewModel.country,
+            isDisplayed: $viewModel.routingState.detailsSheet))
     }
 }
-
-// MARK: - Helpers
 
 private extension Country.Currency {
     var title: String {
         return name + (symbol.map {" " + $0} ?? "")
-    }
-}
-
-// MARK: - Routing
-
-extension CountryDetails {
-    struct Routing: Equatable {
-        var detailsSheet: Bool = false
-    }
-}
-
-// MARK: - State Updates
-
-private extension CountryDetails {
-    
-    var routingUpdate: AnyPublisher<Routing, Never> {
-        injected.appState.updates(for: \.routing.countryDetails)
     }
 }
 
@@ -186,8 +141,7 @@ private extension CountryDetails {
 #if DEBUG
 struct CountryDetails_Previews: PreviewProvider {
     static var previews: some View {
-        CountryDetails(country: Country.mockedData[0])
-            .inject(.preview)
+        CountryDetails(viewModel: .init(container: .preview, country: Country.mockedData[0]))
     }
 }
 #endif

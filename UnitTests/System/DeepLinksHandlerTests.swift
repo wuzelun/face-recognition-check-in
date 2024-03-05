@@ -12,17 +12,17 @@ import XCTest
 class DeepLinksHandlerTests: XCTestCase {
 
     func test_noSideEffectOnInit() {
-        let interactors: DIContainer.Interactors = .mocked()
-        let container = DIContainer(appState: AppState(), interactors: interactors)
+        let services: DIContainer.Services = .mocked()
+        let container = DIContainer(appState: AppState(), services: services)
         _ = RealDeepLinksHandler(container: container)
-        interactors.verify()
+        services.verify()
         XCTAssertEqual(container.appState.value, AppState())
     }
     
     func test_openingDeeplinkFromDefaultRouting() {
-        let interactors: DIContainer.Interactors = .mocked()
+        let services: DIContainer.Services = .mocked()
         let initialState = AppState()
-        let container = DIContainer(appState: initialState, interactors: interactors)
+        let container = DIContainer(appState: initialState, services: services)
         let sut = RealDeepLinksHandler(container: container)
         sut.open(deepLink: .showCountryFlag(alpha3Code: "ITA"))
         XCTAssertNil(initialState.routing.countriesList.countryDetails)
@@ -30,16 +30,16 @@ class DeepLinksHandlerTests: XCTestCase {
         var expectedState = AppState()
         expectedState.routing.countriesList.countryDetails = "ITA"
         expectedState.routing.countryDetails.detailsSheet = true
-        interactors.verify()
+        services.verify()
         XCTAssertEqual(container.appState.value, expectedState)
     }
     
     func test_openingDeeplinkFromNonDefaultRouting() {
-        let interactors: DIContainer.Interactors = .mocked()
+        let services: DIContainer.Services = .mocked()
         var initialState = AppState()
         initialState.routing.countriesList.countryDetails = "FRA"
         initialState.routing.countryDetails.detailsSheet = true
-        let container = DIContainer(appState: initialState, interactors: interactors)
+        let container = DIContainer(appState: initialState, services: services)
         let sut = RealDeepLinksHandler(container: container)
         sut.open(deepLink: .showCountryFlag(alpha3Code: "ITA"))
         
@@ -51,7 +51,7 @@ class DeepLinksHandlerTests: XCTestCase {
         XCTAssertEqual(container.appState.value, resettedState)
         let exp = XCTestExpectation(description: #function)
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            interactors.verify()
+            services.verify()
             XCTAssertEqual(container.appState.value, finalState)
             exp.fulfill()
         }

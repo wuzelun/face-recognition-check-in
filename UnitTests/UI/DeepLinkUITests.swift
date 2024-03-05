@@ -16,34 +16,33 @@ final class DeepLinkUITests: XCTestCase {
     func test_countriesList_selectsCountry() {
         
         let store = appStateWithDeepLink()
-        let interactors = mockedInteractors(store: store)
-        let container = DIContainer(appState: store, interactors: interactors)
-        let sut = CountriesList()
+        let services = mockedServices(store: store)
+        let container = DIContainer(appState: store, services: services)
+        let sut = CountriesList(viewModel: .init(container: container))
         let exp = sut.inspection.inspect(after: 0.1) { view in
             let firstRowLink = try view.content().find(ViewType.NavigationLink.self)
             XCTAssertTrue(try firstRowLink.isActive())
         }
-        ViewHosting.host(view: sut.inject(container))
+        ViewHosting.host(view: sut)
         wait(for: [exp], timeout: 2)
     }
     
     func test_countryDetails_presentsSheet() {
         
         let store = appStateWithDeepLink()
-        let interactors = mockedInteractors(store: store)
-        let container = DIContainer(appState: store, interactors: interactors)
-        let sut = CountryDetails(country: Country.mockedData[0])
+        let services = mockedServices(store: store)
+        let container = DIContainer(appState: store, services: services)
+        let sut = CountryDetails(viewModel: .init(container: container, country: Country.mockedData[0]))
         let exp = sut.inspection.inspect(after: 0.1) { view in
             XCTAssertNoThrow(try view.find(ViewType.List.self))
             XCTAssertTrue(store.value.routing.countryDetails.detailsSheet)
         }
-        ViewHosting.host(view: sut.inject(container))
+        ViewHosting.host(view: sut)
         wait(for: [exp], timeout: 2)
     }
 }
 
 // MARK: - Setup
-
 private extension DeepLinkUITests {
     
     func appStateWithDeepLink() -> Store<AppState> {
@@ -54,7 +53,7 @@ private extension DeepLinkUITests {
         return Store(appState)
     }
     
-    func mockedInteractors(store: Store<AppState>) -> DIContainer.Interactors {
+    func mockedServices(store: Store<AppState>) -> DIContainer.Services {
         
         let countries = Country.mockedData
         let testImage = UIColor.red.image(CGSize(width: 40, height: 40))
@@ -79,13 +78,13 @@ private extension DeepLinkUITests {
         // Mocking successful loading of the flag:
         imagesRepo.imageResponse = .success(testImage)
         
-        let countriesInteractor = RealCountriesInteractor(webRepository: countriesWebRepo,
-                                                          dbRepository: countriesDBRepo,
-                                                          appState: store)
-        let imagesInteractor = RealImagesInteractor(webRepository: imagesRepo)
-        let permissionsInteractor = RealUserPermissionsInteractor(appState: store, openAppSettings: { })
-        return DIContainer.Interactors(countriesInteractor: countriesInteractor,
-                                       imagesInteractor: imagesInteractor,
-                                       userPermissionsInteractor: permissionsInteractor)
+        let countriesService = RealCountriesService(webRepository: countriesWebRepo,
+                                                    dbRepository: countriesDBRepo,
+                                                    appState: store)
+        let imagesService = RealImagesService(webRepository: imagesRepo)
+        let permissionService = RealUserPermissionsService(appState: store, openAppSettings: { })
+        return DIContainer.Services(countriesService: countriesService,
+                                    imagesService: imagesService,
+                                    userPermissionsService: permissionService)
     }
 }

@@ -1,5 +1,5 @@
 //
-//  UserPermissionsInteractor.swift
+//  UserPermissionsService.swift
 //  CountriesSwiftUI
 //
 //  Created by Alexey Naumov on 26.04.2020.
@@ -22,14 +22,14 @@ extension Permission {
     }
 }
 
-protocol UserPermissionsInteractor: AnyObject {
+protocol UserPermissionsService: AnyObject {
     func resolveStatus(for permission: Permission)
     func request(permission: Permission)
 }
 
-// MARK: - RealUserPermissionsInteractor
+// MARK: - RealUserPermissionsService
 
-final class RealUserPermissionsInteractor: UserPermissionsInteractor {
+final class RealUserPermissionsService: UserPermissionsService {
     
     private let appState: Store<AppState>
     private let openAppSettings: () -> Void
@@ -79,7 +79,7 @@ extension UNAuthorizationStatus {
     }
 }
 
-private extension RealUserPermissionsInteractor {
+private extension RealUserPermissionsService {
     
     func pushNotificationsPermissionStatus(_ resolve: @escaping (Permission.Status) -> Void) {
         let center = UNUserNotificationCenter.current()
@@ -102,7 +102,7 @@ private extension RealUserPermissionsInteractor {
 
 // MARK: -
 
-final class StubUserPermissionsInteractor: UserPermissionsInteractor {
+final class StubUserPermissionsService: UserPermissionsService {
     
     func resolveStatus(for permission: Permission) {
     }

@@ -1,5 +1,5 @@
 //
-//  CountriesInteractorTests.swift
+//  CountriesServiceTests.swift
 //  UnitTests
 //
 //  Created by Alexey Naumov on 31.10.2019.
@@ -11,19 +11,19 @@ import SwiftUI
 import Combine
 @testable import CountriesSwiftUI
 
-class CountriesInteractorTests: XCTestCase {
+class CountriesServiceTests: XCTestCase {
 
     let appState = CurrentValueSubject<AppState, Never>(AppState())
     var mockedWebRepo: MockedCountriesWebRepository!
     var mockedDBRepo: MockedCountriesDBRepository!
     var subscriptions = Set<AnyCancellable>()
-    var sut: RealCountriesInteractor!
+    var sut: RealCountriesService!
 
     override func setUp() {
         appState.value = AppState()
         mockedWebRepo = MockedCountriesWebRepository()
         mockedDBRepo = MockedCountriesDBRepository()
-        sut = RealCountriesInteractor(webRepository: mockedWebRepo,
+        sut = RealCountriesService(webRepository: mockedWebRepo,
                                       dbRepository: mockedDBRepo,
                                       appState: appState)
     }
@@ -34,8 +34,7 @@ class CountriesInteractorTests: XCTestCase {
 }
 
 // MARK: - load(countries: search: locale:)
-
-final class LoadCountriesTests: CountriesInteractorTests {
+final class LoadCountriesTests: CountriesServiceTests {
     
     func test_filledDB_successfulSearch() {
         let list = Country.mockedData
@@ -211,8 +210,7 @@ final class LoadCountriesTests: CountriesInteractorTests {
 }
 
 // MARK: - load(countryDetails: country: )
-
-final class LoadCountryDetailsTests: CountriesInteractorTests {
+final class LoadCountryDetailsTests: CountriesServiceTests {
     
     func test_filledDB_successfulSearch() {
         let country = Country.mockedData[0]
@@ -353,9 +351,8 @@ final class LoadCountryDetailsTests: CountriesInteractorTests {
         wait(for: [exp], timeout: 2)
     }
     
-    func test_stubInteractor() {
-        let sut = StubCountriesInteractor()
-        sut.refreshCountriesList().sinkToResult({ _ in }).store(in: &subscriptions)
+    func test_stubService() {
+        let sut = StubCountriesService()
         let countries = BindingWithPublisher(value: Loadable<LazyList<Country>>.notRequested)
         sut.load(countries: countries.binding, search: "", locale: .backendDefault)
         let details = BindingWithPublisher(value: Loadable<Country.Details>.notRequested)

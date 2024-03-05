@@ -1,5 +1,5 @@
 //
-//  MockedInteractors.swift
+//  MockedServices.swift
 //  UnitTests
 //
 //  Created by Alexey Naumov on 07.11.2019.
@@ -12,30 +12,30 @@ import Combine
 import ViewInspector
 @testable import CountriesSwiftUI
 
-extension DIContainer.Interactors {
+extension DIContainer.Services {
     static func mocked(
-        countriesInteractor: [MockedCountriesInteractor.Action] = [],
-        imagesInteractor: [MockedImagesInteractor.Action] = [],
-        permissionsInteractor: [MockedUserPermissionsInteractor.Action] = []
-    ) -> DIContainer.Interactors {
-        .init(countriesInteractor: MockedCountriesInteractor(expected: countriesInteractor),
-              imagesInteractor: MockedImagesInteractor(expected: imagesInteractor),
-              userPermissionsInteractor: MockedUserPermissionsInteractor(expected: permissionsInteractor))
+        countriesService: [MockedCountriesService.Action] = [],
+        imagesService: [MockedImagesService.Action] = [],
+        permissionsService: [MockedUserPermissionsService.Action] = []
+    ) -> DIContainer.Services {
+        .init(countriesService: MockedCountriesService(expected: countriesService),
+              imagesService: MockedImagesService(expected: imagesService),
+              userPermissionsService: MockedUserPermissionsService(expected: permissionsService))
     }
     
     func verify(file: StaticString = #file, line: UInt = #line) {
-        (countriesInteractor as? MockedCountriesInteractor)?
+        (countriesService as? MockedCountriesService)?
             .verify(file: file, line: line)
-        (imagesInteractor as? MockedImagesInteractor)?
+        (imagesService as? MockedImagesService)?
             .verify(file: file, line: line)
-        (userPermissionsInteractor as? MockedUserPermissionsInteractor)?
+        (userPermissionsService as? MockedUserPermissionsService)?
             .verify(file: file, line: line)
     }
 }
 
-// MARK: - CountriesInteractor
+// MARK: - CountriesService
 
-struct MockedCountriesInteractor: Mock, CountriesInteractor {
+struct MockedCountriesService: Mock, CountriesService {
     
     enum Action: Equatable {
         case refreshCountriesList
@@ -63,9 +63,9 @@ struct MockedCountriesInteractor: Mock, CountriesInteractor {
     }
 }
 
-// MARK: - ImagesInteractor
+// MARK: - ImagesService
 
-struct MockedImagesInteractor: Mock, ImagesInteractor {
+struct MockedImagesService: Mock, ImagesService {
     
     enum Action: Equatable {
         case loadImage(URL?)
@@ -82,9 +82,9 @@ struct MockedImagesInteractor: Mock, ImagesInteractor {
     }
 }
 
-// MARK: - ImagesInteractor
+// MARK: - ImagesService
 
-class MockedUserPermissionsInteractor: Mock, UserPermissionsInteractor {
+class MockedUserPermissionsService: Mock, UserPermissionsService {
     
     enum Action: Equatable {
         case resolveStatus(Permission)

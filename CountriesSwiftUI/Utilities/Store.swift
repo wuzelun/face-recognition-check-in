@@ -38,10 +38,14 @@ extension Store {
 
 // MARK: -
 
-extension Binding where Value: Equatable {
-    func dispatched<State>(to state: Store<State>,
-                           _ keyPath: WritableKeyPath<State, Value>) -> Self {
-        return onSet { state[keyPath] = $0 }
+extension ObservableObject {
+    func loadableSubject<Value>(_ keyPath: WritableKeyPath<Self, Loadable<Value>>) -> LoadableSubject<Value> {
+        let defaultValue = self[keyPath: keyPath]
+        return .init(get: { [weak self] in
+            self?[keyPath: keyPath] ?? defaultValue
+        }, set: { [weak self] in
+            self?[keyPath: keyPath] = $0
+        })
     }
 }
 

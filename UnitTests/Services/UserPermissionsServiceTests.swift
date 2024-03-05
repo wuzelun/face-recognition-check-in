@@ -1,5 +1,5 @@
 //
-//  UserPermissionsInteractorTests.swift
+//  UserPermissionsServiceTests.swift
 //  UnitTests
 //
 //  Created by Alexey Naumov on 26.04.2020.
@@ -10,10 +10,10 @@ import XCTest
 import Combine
 @testable import CountriesSwiftUI
 
-class UserPermissionsInteractorTests: XCTestCase {
+class UserPermissionsServiceTests: XCTestCase {
     
     var state = Store<AppState>(AppState())
-    var sut: RealUserPermissionsInteractor!
+    var sut: RealUserPermissionsService!
     
     override func setUp() {
         state.bulkUpdate { $0 = AppState() }
@@ -25,7 +25,7 @@ class UserPermissionsInteractorTests: XCTestCase {
 
     func test_noSideEffectOnInit() {
         let exp = XCTestExpectation(description: #function)
-        sut = RealUserPermissionsInteractor(appState: state) {
+        sut = RealUserPermissionsService(appState: state) {
             XCTFail()
         }
         delay {
@@ -40,7 +40,7 @@ class UserPermissionsInteractorTests: XCTestCase {
     func test_pushFirstResolveStatus() {
         XCTAssertEqual(AppState().permissions.push, .unknown)
         let exp = XCTestExpectation(description: #function)
-        sut = RealUserPermissionsInteractor(appState: state) {
+        sut = RealUserPermissionsService(appState: state) {
             XCTFail()
         }
         sut.resolveStatus(for: .pushNotifications)
@@ -54,7 +54,7 @@ class UserPermissionsInteractorTests: XCTestCase {
     func test_pushSecondResolveStatus() {
         XCTAssertEqual(AppState().permissions.push, .unknown)
         let exp = XCTestExpectation(description: #function)
-        sut = RealUserPermissionsInteractor(appState: state) {
+        sut = RealUserPermissionsService(appState: state) {
             XCTFail()
         }
         sut.resolveStatus(for: .pushNotifications)
@@ -69,7 +69,7 @@ class UserPermissionsInteractorTests: XCTestCase {
     func test_pushRequestPermissionNotDetermined() {
         state[\.permissions.push] = .notRequested
         let exp = XCTestExpectation(description: #function)
-        sut = RealUserPermissionsInteractor(appState: state) {
+        sut = RealUserPermissionsService(appState: state) {
             XCTFail()
         }
         sut.request(permission: .pushNotifications)
@@ -83,7 +83,7 @@ class UserPermissionsInteractorTests: XCTestCase {
     func test_pushRequestPermissionDenied() {
         state[\.permissions.push] = .denied
         let exp = XCTestExpectation(description: #function)
-        sut = RealUserPermissionsInteractor(appState: state) {
+        sut = RealUserPermissionsService(appState: state) {
             XCTAssertEqual(self.state.value.permissions.push, .denied)
             exp.fulfill()
         }
@@ -101,8 +101,8 @@ class UserPermissionsInteractorTests: XCTestCase {
     
     // MARK: - Stub
     
-    func test_stubUserPermissionsInteractor() {
-        let sut = StubUserPermissionsInteractor()
+    func test_stubUserPermissionsService() {
+        let sut = StubUserPermissionsService()
         sut.request(permission: .pushNotifications)
         sut.resolveStatus(for: .pushNotifications)
     }

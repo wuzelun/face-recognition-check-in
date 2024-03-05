@@ -36,10 +36,10 @@ extension AppEnvironment {
         let session = configuredURLSession()
         let webRepositories = configuredWebRepositories(session: session)
         let dbRepositories = configuredDBRepositories(appState: appState)
-        let interactors = configuredInteractors(appState: appState,
+        let services = configuredServices(appState: appState,
                                                 dbRepositories: dbRepositories,
                                                 webRepositories: webRepositories)
-        let diContainer = DIContainer(appState: appState, interactors: interactors)
+        let diContainer = DIContainer(appState: appState, services: services)
         let deepLinksHandler = RealDeepLinksHandler(container: diContainer)
         let pushNotificationsHandler = RealPushNotificationsHandler(deepLinksHandler: deepLinksHandler)
         let systemEventsHandler = RealSystemEventsHandler(
@@ -82,29 +82,29 @@ extension AppEnvironment {
         return .init(countriesRepository: countriesDBRepository)
     }
     
-    private static func configuredInteractors(appState: Store<AppState>,
-                                              dbRepositories: DIContainer.DBRepositories,
-                                              webRepositories: DIContainer.WebRepositories
-    ) -> DIContainer.Interactors {
+    private static func configuredServices(appState: Store<AppState>,
+                                           dbRepositories: DIContainer.DBRepositories,
+                                           webRepositories: DIContainer.WebRepositories
+    ) -> DIContainer.Services {
         
-        let countriesInteractor = RealCountriesInteractor(
+        let countriesService = RealCountriesService(
             webRepository: webRepositories.countriesRepository,
             dbRepository: dbRepositories.countriesRepository,
             appState: appState)
         
-        let imagesInteractor = RealImagesInteractor(
+        let imagesService = RealImagesService(
             webRepository: webRepositories.imageRepository)
         
-        let userPermissionsInteractor = RealUserPermissionsInteractor(
+        let userPermissionsService = RealUserPermissionsService(
             appState: appState, openAppSettings: {
                 URL(string: UIApplication.openSettingsURLString).flatMap {
                     UIApplication.shared.open($0, options: [:], completionHandler: nil)
                 }
             })
         
-        return .init(countriesInteractor: countriesInteractor,
-                     imagesInteractor: imagesInteractor,
-                     userPermissionsInteractor: userPermissionsInteractor)
+        return .init(countriesService: countriesService,
+                     imagesService: imagesService,
+                     userPermissionsService: userPermissionsService)
     }
 }
 

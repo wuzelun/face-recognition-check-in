@@ -11,15 +11,8 @@ import Combine
 
 struct ImageView: View {
     
-    let imageURL: URL
-    @Environment(\.injected) var injected: DIContainer
-    @State private var image: Loadable<UIImage>
+    @ObservedObject private(set) var viewModel: ViewModel
     let inspection = Inspection<Self>()
-    
-    init(imageURL: URL, image: Loadable<UIImage> = .notRequested) {
-        self.imageURL = imageURL
-        self._image = .init(initialValue: image)
-    }
     
     var body: some View {
         content
@@ -27,7 +20,7 @@ struct ImageView: View {
     }
     
     @ViewBuilder private var content: some View {
-        switch image {
+        switch viewModel.image {
         case .notRequested:
             notRequestedView
         case .isLoading:
@@ -42,10 +35,10 @@ struct ImageView: View {
 
 // MARK: - Side Effects
 
-private extension ImageView {
+private extension ImageView.ViewModel {
     func loadImage() {
-        injected.interactors.imagesInteractor
-            .load(image: $image, url: imageURL)
+        container.services.imagesService
+            .load(image: loadableSubject(\.image), url: imageURL)
     }
 }
 
@@ -54,7 +47,7 @@ private extension ImageView {
 private extension ImageView {
     var notRequestedView: some View {
         Text("").onAppear {
-            self.loadImage()
+            self.viewModel.loadImage()
         }
     }
     
@@ -76,14 +69,32 @@ private extension ImageView {
     }
 }
 
+// MARK: - ViewModel
+
+extension ImageView {
+    class ViewModel: ObservableObject {
+        
+        // State
+        let imageURL: URL
+        @Published var image: Loadable<UIImage>
+        
+        // Misc
+        let container: DIContainer
+        private var cancelBag = CancelBag()
+        
+        init(container: DIContainer, imageURL: URL, image: Loadable<UIImage> = .notRequested) {
+            self.imageURL = imageURL
+            self._image = .init(initialValue: image)
+            self.container = container
+        }
+    }
+}
+
 #if DEBUG
 struct ImageView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            ImageView(imageURL: URL(string: "https://flagcdn.com/w640/us.jpg")!)
-            ImageView(imageURL: URL(string: "https://flagcdn.com/w640/al.jpg")!)
-            ImageView(imageURL: URL(string: "https://flagcdn.com/w640/ru.jpg")!)
-        }
+        ImageView(viewModel: ImageView.ViewModel(
+            container: .preview, imageURL: URL(string: "https://flagcdn.com/w640/us.jpg")!))
     }
 }
 #endif

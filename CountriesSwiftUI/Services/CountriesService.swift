@@ -1,5 +1,5 @@
 //
-//  CountriesInteractor.swift
+//  CountriesService.swift
 //  CountriesSwiftUI
 //
 //  Created by Alexey Naumov on 23.10.2019.
@@ -10,13 +10,13 @@ import Combine
 import Foundation
 import SwiftUI
 
-protocol CountriesInteractor {
+protocol CountriesService {
     func refreshCountriesList() -> AnyPublisher<Void, Error>
     func load(countries: LoadableSubject<LazyList<Country>>, search: String, locale: Locale)
     func load(countryDetails: LoadableSubject<Country.Details>, country: Country)
 }
 
-struct RealCountriesInteractor: CountriesInteractor {
+struct RealCountriesService: CountriesService {
     
     let webRepository: CountriesWebRepository
     let dbRepository: CountriesDBRepository
@@ -95,7 +95,7 @@ struct RealCountriesInteractor: CountriesInteractor {
     }
 }
 
-struct StubCountriesInteractor: CountriesInteractor {
+struct StubCountriesService: CountriesService {
     
     func refreshCountriesList() -> AnyPublisher<Void, Error> {
         return Just<Void>.withErrorType(Error.self)

@@ -50,7 +50,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     }
      
     private func installPushNotificationsSubscriberOnLaunch() {
-        weak var permissions = container.interactors.userPermissionsInteractor
+        weak var permissions = container.services.userPermissionsService
         container.appState
             .updates(for: AppState.permissionKeyPath(for: .pushNotifications))
             .first(where: { $0 != .unknown })
@@ -76,7 +76,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     func sceneDidBecomeActive() {
         container.appState[\.system.isActive] = true
-        container.interactors.userPermissionsInteractor.resolveStatus(for: .pushNotifications)
+        container.services.userPermissionsService.resolveStatus(for: .pushNotifications)
     }
     
     func sceneWillResignActive() {
@@ -94,7 +94,7 @@ struct RealSystemEventsHandler: SystemEventsHandler {
     
     func appDidReceiveRemoteNotification(payload: NotificationPayload,
                                          fetchCompletion: @escaping FetchCompletion) {
-        container.interactors.countriesInteractor
+        container.services.countriesService
             .refreshCountriesList()
             .sinkToResult { result in
                 fetchCompletion(result.isSuccess ? .newData : .failed)

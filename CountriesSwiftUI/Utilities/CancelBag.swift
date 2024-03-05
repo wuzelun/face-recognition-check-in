@@ -16,12 +16,23 @@ final class CancelBag {
         self.equalToAny = equalToAny
     }
     
+    func isEqual(to other: CancelBag) -> Bool {
+        return other === self || other.equalToAny || self.equalToAny
+    }
+    
     func cancel() {
         subscriptions.removeAll()
     }
     
-    func isEqual(to other: CancelBag) -> Bool {
-        return other === self || other.equalToAny || self.equalToAny
+    func collect(@Builder _ cancellables: () -> [AnyCancellable]) {
+        subscriptions.formUnion(cancellables())
+    }
+
+    @resultBuilder
+    struct Builder {
+        static func buildBlock(_ cancellables: AnyCancellable...) -> [AnyCancellable] {
+            return cancellables
+        }
     }
 }
 

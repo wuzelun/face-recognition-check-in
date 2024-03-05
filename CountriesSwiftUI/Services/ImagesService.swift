@@ -1,5 +1,5 @@
 //
-//  ImagesInteractor.swift
+//  ImagesService.swift
 //  CountriesSwiftUI
 //
 //  Created by Alexey Naumov on 09.11.2019.
@@ -10,11 +10,11 @@ import Combine
 import Foundation
 import SwiftUI
 
-protocol ImagesInteractor {
+protocol ImagesService {
     func load(image: LoadableSubject<UIImage>, url: URL?)
 }
 
-struct RealImagesInteractor: ImagesInteractor {
+struct RealImagesService: ImagesService {
     
     let webRepository: ImageWebRepository
     
@@ -27,7 +27,7 @@ struct RealImagesInteractor: ImagesInteractor {
             image.wrappedValue = .notRequested; return
         }
         let cancelBag = CancelBag()
-        image.wrappedValue.setIsLoading(cancelBag: cancelBag)
+        image.wrappedValue = .isLoading(last: image.wrappedValue.value, cancelBag: cancelBag)
         webRepository.load(imageURL: url)
             .sinkToLoadable {
                 image.wrappedValue = $0
@@ -36,7 +36,7 @@ struct RealImagesInteractor: ImagesInteractor {
     }
 }
 
-struct StubImagesInteractor: ImagesInteractor {
+struct StubImagesService: ImagesService {
     func load(image: LoadableSubject<UIImage>, url: URL?) {
     }
 }
