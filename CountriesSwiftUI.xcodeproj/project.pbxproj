@@ -10,6 +10,8 @@
 		52333A932654463B0034072B /* UIOpenURLContext_Init.m in Sources */ = {isa = PBXBuildFile; fileRef = 52333A922654463B0034072B /* UIOpenURLContext_Init.m */; };
 		678E0BAF26B749A000B21166 /* Publisher+WeakAssign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 678E0BAE26B749A000B21166 /* Publisher+WeakAssign.swift */; };
 		994B6FEA4FFDA3611F105213 /* Pods_CountriesSwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7E512F60F9FAC3503A3F489F /* Pods_CountriesSwiftUI.framework */; };
+		AB49CF1F2B98607900F4A921 /* haarcascade_eye.xml in Resources */ = {isa = PBXBuildFile; fileRef = AB49CF1E2B98606300F4A921 /* haarcascade_eye.xml */; };
+		AB49CF212B98691100F4A921 /* haarcascade_frontalface_alt2.xml in Resources */ = {isa = PBXBuildFile; fileRef = AB49CF202B98690800F4A921 /* haarcascade_frontalface_alt2.xml */; };
 		ABC080B92B96C62F008F3ECC /* FaceRecognizer.mm in Sources */ = {isa = PBXBuildFile; fileRef = ABC080B82B96C62F008F3ECC /* FaceRecognizer.mm */; };
 		ABC080BC2B96C9FD008F3ECC /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080BB2B96C9FD008F3ECC /* CameraController.swift */; };
 		ABC080C12B96CA98008F3ECC /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABC080C02B96CA98008F3ECC /* CameraPreviewView.swift */; };
@@ -122,6 +124,8 @@
 		7E512F60F9FAC3503A3F489F /* Pods_CountriesSwiftUI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CountriesSwiftUI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7EFA019FA7B0EF83696C67CA /* Pods-CountriesSwiftUI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.debug.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.debug.xcconfig"; sourceTree = "<group>"; };
 		94C5C19A5F04E076A09E475E /* Pods-CountriesSwiftUI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CountriesSwiftUI.release.xcconfig"; path = "Target Support Files/Pods-CountriesSwiftUI/Pods-CountriesSwiftUI.release.xcconfig"; sourceTree = "<group>"; };
+		AB49CF1E2B98606300F4A921 /* haarcascade_eye.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_eye.xml; sourceTree = "<group>"; };
+		AB49CF202B98690800F4A921 /* haarcascade_frontalface_alt2.xml */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = haarcascade_frontalface_alt2.xml; sourceTree = "<group>"; };
 		ABC080B62B96C62E008F3ECC /* CountriesSwiftUI-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CountriesSwiftUI-Bridging-Header.h"; sourceTree = "<group>"; };
 		ABC080B72B96C62F008F3ECC /* FaceRecognizer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FaceRecognizer.h; sourceTree = "<group>"; };
 		ABC080B82B96C62F008F3ECC /* FaceRecognizer.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = FaceRecognizer.mm; sourceTree = "<group>"; };
@@ -268,6 +272,8 @@
 		ABC080B52B96C5E2008F3ECC /* Objc */ = {
 			isa = PBXGroup;
 			children = (
+				AB49CF202B98690800F4A921 /* haarcascade_frontalface_alt2.xml */,
+				AB49CF1E2B98606300F4A921 /* haarcascade_eye.xml */,
 				ABC080C72B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat */,
 				ABC080C62B96FC87008F3ECC /* shape_predictor_68_face_landmarks.dat */,
 				ABC080B72B96C62F008F3ECC /* FaceRecognizer.h */,
@@ -699,8 +705,10 @@
 			files = (
 				F64495F12360D66700C9BB1F /* LaunchScreen.storyboard in Resources */,
 				F66EDB6823F1599F00A01B9F /* Localizable.strings in Resources */,
+				AB49CF212B98691100F4A921 /* haarcascade_frontalface_alt2.xml in Resources */,
 				ABC080C82B96FC98008F3ECC /* dlib_face_recognition_resnet_model_v1.dat in Resources */,
 				F64495EE2360D66700C9BB1F /* Preview Assets.xcassets in Resources */,
+				AB49CF1F2B98607900F4A921 /* haarcascade_eye.xml in Resources */,
 				F64495EB2360D66700C9BB1F /* Assets.xcassets in Resources */,
 				ABC080C92B96FCE4008F3ECC /* shape_predictor_68_face_landmarks.dat in Resources */,
 			);

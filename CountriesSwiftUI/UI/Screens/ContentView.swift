@@ -29,11 +29,34 @@ struct ContentView: View {
 //                        faceRec.test()
 //                    })
 //                Text("Running unit tests")
-                FaceRecognizeView()
+                SubView2()
             }
         }
     }
 }
+
+struct SubView2:View {
+    
+    @State private var showGreeting = true
+    var body: some View {
+        NavigationView {
+            HStack{
+                Toggle("Show welcome message", isOn: $showGreeting)
+                                .toggleStyle(SwitchToggleStyle(tint: .red))
+
+                Group{
+                    if showGreeting {
+                        Text("Hello World!")
+                    }else{
+                        FaceRecognizeView()
+                    }
+                }
+            }
+        }.navigationViewStyle(StackNavigationViewStyle())
+
+    }
+}
+
 
 // MARK: - ViewModel
 

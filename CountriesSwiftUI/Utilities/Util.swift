@@ -52,6 +52,10 @@ func detectFaceInImage(img: UIImage, callback: @escaping ((_ result: DetectResul
             h = face.boundingBox.size.height * enhancedImg.size.height
         let faceRect = CGRect.init(x: x, y: y, width: w, height: h)
         detectResult.faceRect = faceRect
+//        let isss = faceRecognizer.checkAlive(enhancedImg)
+//        if (isss) {
+//            print("check good")
+//        }
         let faceFeatures = faceRecognizer.genFeatures(enhancedImg, withFace: faceRect)
         if (faceFeatures.features.count == 0 || faceFeatures.landmarks.count == 0) {
             callback(detectResult)

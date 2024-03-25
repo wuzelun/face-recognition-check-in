@@ -17,6 +17,7 @@ NS_ASSUME_NONNULL_BEGIN
 @interface FaceRecognizer : NSObject
 + (FaceRecognizer *) shared;
 - (UIImage *) enhanceImage: (UIImage *) img;
+- (BOOL) checkAlive: (UIImage *) img;
 - (FaceFeatures *) genFeatures: (UIImage *) img withFaceRect: (CGRect) rect;
 @end
 
